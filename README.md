@@ -1,26 +1,27 @@
-# Discord Server Website  
+# 🎉 Welcome to My Discord Server Website!  
 
-Welcome to the **Discord Server Website** repository! This project contains the code for a simple, black-themed website that embeds a Discord server widget and provides a direct link to join the server.  
+Hey there! This repository holds the code for a simple yet stylish black-themed website designed to showcase and connect to my Discord server. If you want a sleek way to invite people to your server, you're in the right place!  
 
-## Features  
-- **Modern Black Theme**: Sleek black background with white text for easy readability.  
-- **Embedded Discord Server**: View the server widget directly on the site.  
-- **Join Link**: A clickable link to instantly join the Discord server.  
+---
 
-## Preview  
-![Website Screenshot](https://via.placeholder.com/800x400.png?text=Website+Preview)  
-*Preview image of the website.*  
+## 🌟 What's Inside?  
 
-## Getting Started  
+✨ **Dark Mode Design**  
+- A clean black background paired with sharp, modern visuals.  
 
-Follow these steps to get the project up and running:  
+✨ **Embedded Discord Server**  
+- Check out the server's widget directly from the website.  
 
-### Prerequisites  
-- A text editor (e.g., VSCode, Notepad++)  
-- A browser to preview the HTML file.  
-- (Optional) A GitHub Pages setup or web hosting service if you want to host the site online.  
+✨ **Instant Join Link**  
+- A direct link to jump right into the community.  
 
-### Installation  
-1. Clone this repository:  
-   ```bash  
-   git clone https://github.com/your-username/discord-server-website.git  
+---
+
+## 🚀 Quick Start  
+
+Want to see it live? Here's how you can get the site up and running:  
+
+### 1️⃣ Clone the Repository  
+Grab a copy of this code by running:  
+```bash  
+git clone https://github.com/realborko/server
