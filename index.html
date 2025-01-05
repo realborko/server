@@ -94,8 +94,8 @@
         /* Store Page Styling */
         .store-items {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
             margin-top: 20px;
         }
 
@@ -137,10 +137,27 @@
             background-color: #5865f2;
         }
 
+        /* Discord Embed Styling */
+        iframe {
+            width: 100%; /* Full width for mobile */
+            max-width: 400px; /* Limit size for larger screens */
+            height: 500px;
+            border: none;
+            margin-top: 20px;
+        }
+
         /* Mobile-Friendly Adjustments */
         @media screen and (max-width: 600px) {
-            .store-item {
-                width: 100%; /* Full width on mobile */
+            .store-items {
+                grid-template-columns: 1fr; /* One column layout */
+            }
+
+            iframe {
+                height: 400px; /* Adjust height for smaller screens */
+            }
+
+            .main-content {
+                padding: 10px;
             }
         }
     </style>
@@ -163,10 +180,7 @@
         <!-- Embedded Discord Widget -->
         <iframe 
             src="https://discord.com/widget?id=1325533924134228018&theme=dark" 
-            width="350" 
-            height="500" 
             allowtransparency="true" 
-            frameborder="0" 
             sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
         </iframe>
 
@@ -181,27 +195,27 @@
         <div class="store-items">
             <!-- Example Store Items -->
             <div class="store-item">
-                <img src="https://via.placeholder.com/250" alt="Item 1">
-                <h3>Item 1</h3>
-                <p>Price: $10.00</p>
+                <img src="https://via.placeholder.com/150" alt="Item 1">
+                <h3>Minecraft SFA</h3>
+                <p>Price: $0.10/account</p>
                 <a href="https://example.com/item1" target="_blank">
                     <button>Buy Now</button>
                 </a>
             </div>
 
             <div class="store-item">
-                <img src="https://via.placeholder.com/250" alt="Item 2">
-                <h3>Item 2</h3>
-                <p>Price: $15.00</p>
+                <img src="https://via.placeholder.com/150" alt="Item 2">
+                <h3>Optifine account</h3>
+                <p>Price: $0.05/account</p>
                 <a href="https://example.com/item2" target="_blank">
                     <button>Buy Now</button>
                 </a>
             </div>
 
             <div class="store-item">
-                <img src="https://via.placeholder.com/250" alt="Item 3">
-                <h3>Item 3</h3>
-                <p>Price: $20.00</p>
+                <img src="https://via.placeholder.com/150" alt="Item 3">
+                <h3>Valorant account</h3>
+                <p>Price: $0.30/account</p>
                 <a href="https://example.com/item3" target="_blank">
                     <button>Buy Now</button>
                 </a>
