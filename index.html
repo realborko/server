@@ -13,6 +13,7 @@
             color: #fff;
             font-family: Arial, sans-serif;
             overflow-x: hidden; /* Prevent horizontal scrolling */
+            text-align: center; /* Center align all content */
         }
 
         /* Smooth Entering Animation */
@@ -38,7 +39,7 @@
             height: 100%;
             background-color: #111;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
-            padding-top: 60px; /* Moves buttons lower */
+            padding-top: 80px; /* Moves buttons lower */
             z-index: 1000;
             transition: left 0.3s ease; /* Smooth slide-in */
         }
@@ -82,8 +83,7 @@
 
         /* Main Content */
         .main-content {
-            margin-left: 0;
-            padding: 20px;
+            margin: 20px;
             transition: margin-left 0.3s ease;
         }
 
@@ -139,11 +139,12 @@
 
         /* Discord Embed Styling */
         iframe {
-            width: 80%; /* Full width for mobile */
-            max-width: 400px; /* Limit size for larger screens */
-            height: 500px;
+            width: 80%; /* Smaller for better fit */
+            max-width: 300px; /* Adjusted for mobile */
+            height: 400px; /* Adjusted height */
             border: none;
-            margin-top: 20px;
+            margin: 20px auto; /* Center the iframe */
+            display: block;
         }
 
         /* Mobile-Friendly Adjustments */
@@ -153,11 +154,7 @@
             }
 
             iframe {
-                height: 400px; /* Adjust height for smaller screens */
-            }
-
-            .main-content {
-                padding: 10px;
+                height: 300px; /* Smaller height for mobile */
             }
         }
     </style>
@@ -205,7 +202,7 @@
 
             <div class="store-item">
                 <img src="https://via.placeholder.com/150" alt="Item 2">
-                <h3>Optifine account</h3>
+                <h3>Optifine Account</h3>
                 <p>Price: $0.05/account</p>
                 <a href="https://example.com/item2" target="_blank">
                     <button>Buy Now</button>
@@ -214,7 +211,7 @@
 
             <div class="store-item">
                 <img src="https://via.placeholder.com/150" alt="Item 3">
-                <h3>Valorant account</h3>
+                <h3>Valorant Account</h3>
                 <p>Price: $0.30/account</p>
                 <a href="https://example.com/item3" target="_blank">
                     <button>Buy Now</button>
