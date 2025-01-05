@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Discord Server</title>
     <style>
-        /* Basic Styling */
+        /* General Styling */
         body {
             margin: 0;
             padding: 0;
-            background-color: #000; /* Black background */
-            color: #fff; /* White text */
+            background-color: #000;
+            color: #fff;
             font-family: Arial, sans-serif;
             overflow-x: hidden; /* Prevent horizontal scrolling */
         }
 
-        /* Smooth Fade-in Animation */
+        /* Smooth Entering Animation */
         .fade-in {
             opacity: 0;
             transform: translateY(20px);
@@ -33,12 +33,18 @@
         .sidebar {
             position: fixed;
             top: 0;
-            left: 0;
+            left: -200px; /* Initially hidden */
             width: 200px;
             height: 100%;
-            background-color: #111; /* Dark sidebar */
-            padding-top: 20px;
+            background-color: #111;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+            padding-top: 20px;
+            z-index: 1000;
+            transition: left 0.3s ease; /* Smooth slide-in */
+        }
+
+        .sidebar.open {
+            left: 0; /* Slide into view */
         }
 
         .sidebar a {
@@ -54,10 +60,35 @@
             color: #7289da;
         }
 
+        /* Sidebar Toggle Button */
+        .sidebar-toggle {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1100;
+            background-color: #111;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar-toggle:hover {
+            background-color: #333;
+        }
+
         /* Main Content */
         .main-content {
-            margin-left: 200px; /* Leave space for the sidebar */
+            margin-left: 0;
             padding: 20px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.shifted {
+            margin-left: 200px;
         }
 
         /* Store Page Styling */
@@ -98,11 +129,21 @@
         .store-item button:hover {
             background-color: #5865f2;
         }
+
+        /* Mobile-Friendly Adjustments */
+        @media screen and (max-width: 600px) {
+            .store-item {
+                width: 100%; /* Full width on mobile */
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Sidebar Toggle Button -->
+    <button class="sidebar-toggle" onclick="toggleSidebar()">☰ Menu</button>
+
     <!-- Sidebar Navigation -->
-    <div class="sidebar">
+    <div id="sidebar" class="sidebar">
         <a href="#" onclick="showPage('home')">Home</a>
         <a href="#" onclick="showPage('store')">Store</a>
     </div>
@@ -156,6 +197,15 @@
     </div>
 
     <script>
+        // Function to toggle the sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.querySelector('.main-content');
+
+            sidebar.classList.toggle('open');
+            mainContent.classList.toggle('shifted');
+        }
+
         // Function to show specific pages
         function showPage(pageId) {
             // Hide all pages
@@ -165,6 +215,9 @@
 
             // Show the selected page
             document.getElementById(pageId).style.display = 'block';
+
+            // Close the sidebar after selecting a page
+            toggleSidebar();
         }
     </script>
 </body>
