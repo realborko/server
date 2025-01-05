@@ -5,51 +5,167 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Discord Server</title>
     <style>
+        /* Basic Styling */
         body {
             margin: 0;
             padding: 0;
             background-color: #000; /* Black background */
             color: #fff; /* White text */
             font-family: Arial, sans-serif;
-            text-align: center;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
         }
 
-        h1 {
-            margin-top: 20px;
+        /* Smooth Fade-in Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s ease-in-out forwards;
         }
 
-        iframe {
-            margin-top: 20px;
-            border: none;
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        a {
-            color: #7289da;
+        /* Sidebar Styling */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 100%;
+            background-color: #111; /* Dark sidebar */
+            padding-top: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar a {
+            display: block;
+            color: #fff;
             text-decoration: none;
+            padding: 10px 20px;
+            margin-bottom: 10px;
         }
 
-        a:hover {
-            text-decoration: underline;
+        .sidebar a:hover {
+            background-color: #333;
+            color: #7289da;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 200px; /* Leave space for the sidebar */
+            padding: 20px;
+        }
+
+        /* Store Page Styling */
+        .store-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .store-item {
+            background-color: #222;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            width: 200px;
+            color: #fff;
+        }
+
+        .store-item img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        .store-item button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #7289da;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .store-item button:hover {
+            background-color: #5865f2;
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to Our Discord Community!</h1>
-    <p>Stay connected and join the conversation.</p>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <a href="#" onclick="showPage('home')">Home</a>
+        <a href="#" onclick="showPage('store')">Store</a>
+    </div>
 
-    <!-- Embedded Discord Widget -->
-    <iframe 
-        src="https://discord.com/widget?id=1325533924134228018&theme=dark" 
-        width="350" 
-        height="500" 
-        allowtransparency="true" 
-        frameborder="0" 
-        sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
-    </iframe>
+    <!-- Main Content -->
+    <div id="home" class="main-content fade-in">
+        <h1>Welcome to Our Discord Community!</h1>
+        <p>Stay connected and join the conversation.</p>
 
-    <!-- Fallback Invite Link -->
-    <p>
-        If the widget isn't loading, <a href="https://discord.gg/s4FGSvU8yU" target="_blank">click here</a> to join directly!
-    </p>
+        <!-- Embedded Discord Widget -->
+        <iframe 
+            src="https://discord.com/widget?id=1325533924134228018&theme=dark" 
+            width="350" 
+            height="500" 
+            allowtransparency="true" 
+            frameborder="0" 
+            sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
+        </iframe>
+
+        <p>
+            If the widget isn't loading, <a href="https://discord.gg/s4FGSvU8yU" target="_blank" style="color: #7289da;">click here</a> to join directly!
+        </p>
+    </div>
+
+    <div id="store" class="main-content fade-in" style="display: none;">
+        <h1>Store</h1>
+        <p>Check out our items below:</p>
+        <div class="store-items">
+            <!-- Example Store Item -->
+            <div class="store-item">
+                <img src="https://via.placeholder.com/150" alt="Item 1">
+                <h3>Item 1</h3>
+                <p>$10.00</p>
+                <button>Buy Now</button>
+            </div>
+
+            <div class="store-item">
+                <img src="https://via.placeholder.com/150" alt="Item 2">
+                <h3>Item 2</h3>
+                <p>$15.00</p>
+                <button>Buy Now</button>
+            </div>
+
+            <div class="store-item">
+                <img src="https://via.placeholder.com/150" alt="Item 3">
+                <h3>Item 3</h3>
+                <p>$20.00</p>
+                <button>Buy Now</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to show specific pages
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.main-content').forEach(page => {
+                page.style.display = 'none';
+            });
+
+            // Show the selected page
+            document.getElementById(pageId).style.display = 'block';
+        }
+    </script>
 </body>
 </html>
