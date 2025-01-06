@@ -12,7 +12,7 @@
             background-color: #000;
             color: #fff;
             font-family: Arial, sans-serif;
-            overflow: hidden;
+            overflow: hidden; /* Prevent scrolling until user enters */
         }
 
         /* Full-Screen Blur Overlay */
@@ -40,15 +40,117 @@
             cursor: pointer;
         }
 
-        /* Main Content Styling */
+        /* Main Body Styling */
+        body.active {
+            overflow: auto; /* Enable scrolling when active */
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -200px;
+            width: 200px;
+            height: 100%;
+            background-color: #111;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+            padding-top: 80px;
+            z-index: 1000;
+            transition: left 0.3s ease;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar a:hover {
+            background-color: #333;
+            color: #7289da;
+        }
+
+        .sidebar-toggle {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1100;
+            background-color: #111;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar-toggle:hover {
+            background-color: #333;
+        }
+
         .main-content {
-            display: none; /* Hidden until the user enters */
-            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
         }
 
-        h1, p {
-            margin: 20px 0;
+        .main-content.shifted {
+            margin-left: 200px;
+        }
+
+        /* Store Page Styling */
+        .store-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Smaller grid items */
+            gap: 15px; /* Reduced gap */
+            max-width: 80%; /* Centered layout */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+
+        .store-item {
+            background-color: #222;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 10px; /* Reduced padding */
+            text-align: center;
+            color: #fff;
+        }
+
+        .store-item img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-bottom: 5px; /* Reduced margin */
+        }
+
+        .store-item h3 {
+            margin: 5px 0;
+        }
+
+        .store-item button {
+            margin-top: 5px; /* Reduced margin */
+            padding: 8px; /* Smaller button */
+            background-color: #7289da;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .store-item button:hover {
+            background-color: #5865f2;
         }
 
         /* Music Controls Styling */
@@ -60,23 +162,18 @@
             border-radius: 10px;
             padding: 10px;
             color: #fff;
-            display: none;
+            display: none; /* Hidden by default */
             z-index: 1200;
         }
 
-        .music-controls p {
-            margin: 5px 0;
-        }
-
-        .music-controls button,
-        .music-controls input {
-            margin: 5px 0;
-            padding: 5px 10px;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
+        .music-controls button {
             background-color: #7289da;
-            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #fff;
         }
 
         .music-controls button:hover {
@@ -100,18 +197,22 @@
         .music-toggle:hover {
             background-color: #333;
         }
+
+        /* Discord Embed Styling */
+        iframe {
+            width: 80%;
+            max-width: 300px;
+            height: 400px;
+            border: none;
+            margin: 20px auto;
+            display: block;
+        }
     </style>
 </head>
 <body>
     <!-- Full-Screen Overlay -->
     <div id="enter-screen">
         <h1>Click to Enter</h1>
-    </div>
-
-    <!-- Main Content -->
-    <div id="main-content" class="main-content">
-        <h1>Welcome</h1>
-        <p>Accounts for cheap.</p>
     </div>
 
     <!-- Autoplay Background Music -->
@@ -125,51 +226,117 @@
         <p>Music Controls</p>
         <button onclick="playMusic()">Play</button>
         <button onclick="pauseMusic()">Pause</button>
-        <label>
-            Volume: 
-            <input type="range" id="volume-slider" min="0" max="1" step="0.1" value="1">
-        </label>
         <button onclick="toggleMusicControls()">Close</button>
     </div>
 
     <button id="music-toggle" class="music-toggle" onclick="toggleMusicControls()">♪</button>
 
-    <script>
-        const audio = document.getElementById('background-music');
-        const musicControls = document.getElementById('music-controls');
-        const volumeSlider = document.getElementById('volume-slider');
-        const mainContent = document.getElementById('main-content');
-        const enterScreen = document.getElementById('enter-screen');
+    <!-- Sidebar Toggle Button -->
+    <button class="sidebar-toggle" onclick="toggleSidebar()">☰ Menu</button>
 
-        // Handle Enter Screen
-        enterScreen.addEventListener('click', () => {
+    <!-- Sidebar Navigation -->
+    <div id="sidebar" class="sidebar">
+        <a href="#" onclick="showPage('home')">Home</a>
+        <a href="#" onclick="showPage('store')">Store</a>
+    </div>
+
+    <!-- Main Content -->
+    <div id="home" class="main-content fade-in">
+        <h1>Welcome</h1>
+        <p>Accounts for cheap.</p>
+
+        <!-- Embedded Discord Widget -->
+        <iframe 
+            src="https://discord.com/widget?id=1325533924134228018&theme=dark" 
+            allowtransparency="true" 
+            sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
+        </iframe>
+
+        <p>
+            If the widget isn't loading, <a href="https://discord.gg/s4FGSvU8yU" target="_blank" style="color: #7289da;">click here</a> to join directly!
+        </p>
+    </div>
+
+    <div id="store" class="main-content fade-in" style="display: none;">
+        <h1>Store</h1>
+        <p>Check out our items below:</p>
+        <div class="store-items">
+            <div class="store-item">
+                <img src="https://files.catbox.moe/s7iw8m.jpeg" alt="Item 1">
+                <h3>Minecraft SFA</h3>
+                <a href="https://ziehung.mysellix.io/product/minecraft-sfa-account-677b1aa56cf7e" target="_blank">
+                    <button>Buy Now</button>
+                </a>
+            </div>
+            <div class="store-item">
+                <img src="https://files.catbox.moe/pqjd5n.jpeg" alt="Item 2">
+                <h3>Optifine Account</h3>
+                <a href="https://example.com/item2" target="_blank">
+                    <button>Buy Now</button>
+                </a>
+            </div>
+            <div class="store-item">
+                <img src="https://files.catbox.moe/6qsb24.jpeg" alt="Item 3">
+                <h3>Valorant Account</h3>
+                <a href="https://example.com/item3" target="_blank">
+                    <button>Buy Now</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to toggle the sidebar
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.querySelector('.main-content');
+
+            sidebar.classList.toggle('open');
+            mainContent.classList.toggle('shifted');
+        }
+
+        // Function to show specific pages
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.main-content').forEach(page => {
+                page.style.display = 'none';
+            });
+
+            // Show the selected page
+            document.getElementById(pageId).style.display = 'block';
+
+            // Close the sidebar after selecting a page
+            toggleSidebar();
+        }
+
+        // Handle the enter screen
+        document.getElementById('enter-screen').addEventListener('click', () => {
             // Start the music
+            const audio = document.getElementById('background-music');
             audio.play();
 
             // Remove the enter screen
-            enterScreen.style.display = 'none';
+            document.getElementById('enter-screen').style.display = 'none';
 
-            // Show the main content
-            mainContent.style.display = 'block';
+            // Enable scrolling
+            document.body.classList.add('active');
         });
 
-        // Music Control Functions
+        // Music control functions
         function playMusic() {
+            const audio = document.getElementById('background-music');
             audio.play();
         }
 
         function pauseMusic() {
+            const audio = document.getElementById('background-music');
             audio.pause();
         }
 
         function toggleMusicControls() {
-            musicControls.style.display = musicControls.style.display === 'none' || musicControls.style.display === '' ? 'block' : 'none';
+            const controls = document.getElementById('music-controls');
+            controls.style.display = controls.style.display === 'none' || controls.style.display === '' ? 'block' : 'none';
         }
-
-        // Volume Control
-        volumeSlider.addEventListener('input', (e) => {
-            audio.volume = e.target.value;
-        });
     </script>
 </body>
 </html>
