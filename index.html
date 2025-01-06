@@ -13,11 +13,6 @@
             color: #fff;
             font-family: Arial, sans-serif;
             overflow-x: hidden; /* Prevent horizontal scrolling */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            min-height: 100vh; /* Make sure the content is vertically centered */
             text-align: center; /* Center align all content */
         }
 
@@ -88,9 +83,12 @@
 
         /* Main Content */
         .main-content {
-            max-width: 90%; /* Ensures content fits well on smaller screens */
-            margin: 20px auto;
+            margin: 20px;
             transition: margin-left 0.3s ease;
+        }
+
+        .main-content.shifted {
+            margin-left: 200px;
         }
 
         /* Store Page Styling */
@@ -139,43 +137,29 @@
             background-color: #5865f2;
         }
 
-        /* Ball Rain Effect */
-        .ballrain {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none; /* Allow clicks through the animation */
-            z-index: 999;
+        /* Discord Embed Styling */
+        iframe {
+            width: 80%; /* Smaller for better fit */
+            max-width: 300px; /* Adjusted for mobile */
+            height: 400px; /* Adjusted height */
+            border: none;
+            margin: 20px auto; /* Center the iframe */
+            display: block;
         }
 
-        .ball {
-            position: absolute;
-            top: -10px;
-            background-color: #fff;
-            border-radius: 50%;
-            width: 10px;
-            height: 10px;
-            animation: fall 6s linear infinite;
-        }
-
-        @keyframes fall {
-            0% {
-                transform: translateY(-10px);
-                opacity: 1;
+        /* Mobile-Friendly Adjustments */
+        @media screen and (max-width: 600px) {
+            .store-items {
+                grid-template-columns: 1fr; /* One column layout */
             }
-            100% {
-                transform: translateY(110vh);
-                opacity: 0;
+
+            iframe {
+                height: 300px; /* Smaller height for mobile */
             }
         }
     </style>
 </head>
 <body>
-    <!-- Ball Rain Container -->
-    <div class="ballrain" id="ballrain"></div>
-
     <!-- Sidebar Toggle Button -->
     <button class="sidebar-toggle" onclick="toggleSidebar()">☰ Menu</button>
 
@@ -194,8 +178,7 @@
         <iframe 
             src="https://discord.com/widget?id=1325533924134228018&theme=dark" 
             allowtransparency="true" 
-            sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
-            style="max-width: 90%; margin: 0 auto; display: block;">
+            sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
         </iframe>
 
         <p>
@@ -220,6 +203,13 @@
                 <img src="https://files.catbox.moe/pqjd5n.jpeg" alt="Item 2">
                 <h3>Optifine Account</h3>
                 <a href="https://example.com/item2" target="_blank">
+                    <button>Buy Now</button>
+                </a>
+            </div>
+            <div class="store-item">
+                <img src="https://files.catbox.moe/6qsb24.jpeg" alt="Item 3">
+                <h3>Valorant Account</h3>
+                <a href="https://example.com/item3" target="_blank">
                     <button>Buy Now</button>
                 </a>
             </div>
@@ -249,23 +239,6 @@
             // Close the sidebar after selecting a page
             toggleSidebar();
         }
-
-        // Ball Rain Effect
-        function createBallRain() {
-            const container = document.getElementById('ballrain');
-
-            for (let i = 0; i < 30; i++) { // Reduced number of balls
-                const ball = document.createElement('div');
-                ball.className = 'ball';
-                ball.style.left = Math.random() * 100 + '%';
-                ball.style.animationDelay = Math.random() * 6 + 's';
-                ball.style.animationDuration = Math.random() * 3 + 3 + 's';
-                container.appendChild(ball);
-            }
-        }
-
-        // Initialize ball rain
-        createBallRain();
     </script>
 </body>
 </html>
