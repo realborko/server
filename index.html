@@ -12,55 +12,40 @@
             background-color: #000;
             color: #fff;
             font-family: Arial, sans-serif;
-            overflow: hidden; /* Prevent scrolling until user enters */
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+            text-align: center; /* Center align all content */
         }
 
-        /* Full-Screen Blur Overlay */
-        #enter-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
+        /* Smooth Entering Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s ease-in-out forwards;
         }
 
-        #enter-screen h1 {
-            color: white;
-            font-size: 3rem;
-            text-transform: uppercase;
-            font-weight: bold;
-            text-align: center;
-            user-select: none;
-            cursor: pointer;
-        }
-
-        /* Main Body Styling */
-        body.active {
-            overflow: auto; /* Enable scrolling when active */
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Sidebar Styling */
         .sidebar {
             position: fixed;
             top: 0;
-            left: -200px;
+            left: -200px; /* Initially hidden */
             width: 200px;
             height: 100%;
             background-color: #111;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
-            padding-top: 80px;
+            padding-top: 80px; /* Moves buttons lower */
             z-index: 1000;
-            transition: left 0.3s ease;
+            transition: left 0.3s ease; /* Smooth slide-in */
         }
 
         .sidebar.open {
-            left: 0;
+            left: 0; /* Slide into view */
         }
 
         .sidebar a {
@@ -76,6 +61,7 @@
             color: #7289da;
         }
 
+        /* Sidebar Toggle Button */
         .sidebar-toggle {
             position: fixed;
             top: 15px;
@@ -95,14 +81,10 @@
             background-color: #333;
         }
 
+        /* Main Content */
         .main-content {
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+            margin: 20px;
+            transition: margin-left 0.3s ease;
         }
 
         .main-content.shifted {
@@ -112,18 +94,16 @@
         /* Store Page Styling */
         .store-items {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Smaller grid items */
-            gap: 15px; /* Reduced gap */
-            max-width: 80%; /* Centered layout */
-            justify-content: center; /* Center horizontally */
-            align-items: center; /* Center vertically */
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
         }
 
         .store-item {
             background-color: #222;
             border: 1px solid #333;
             border-radius: 10px;
-            padding: 10px; /* Reduced padding */
+            padding: 15px;
             text-align: center;
             color: #fff;
         }
@@ -131,16 +111,20 @@
         .store-item img {
             max-width: 100%;
             border-radius: 10px;
-            margin-bottom: 5px; /* Reduced margin */
+            margin-bottom: 10px;
         }
 
         .store-item h3 {
+            margin: 10px 0;
+        }
+
+        .store-item p {
             margin: 5px 0;
         }
 
         .store-item button {
-            margin-top: 5px; /* Reduced margin */
-            padding: 8px; /* Smaller button */
+            margin-top: 10px;
+            padding: 10px;
             background-color: #7289da;
             border: none;
             border-radius: 5px;
@@ -153,84 +137,29 @@
             background-color: #5865f2;
         }
 
-        /* Music Controls Styling */
-        .music-controls {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            background-color: #111;
-            border-radius: 10px;
-            padding: 10px;
-            color: #fff;
-            display: none; /* Hidden by default */
-            z-index: 1200;
-        }
-
-        .music-controls button {
-            background-color: #7289da;
-            border: none;
-            padding: 5px 10px;
-            margin: 5px 0;
-            border-radius: 5px;
-            cursor: pointer;
-            color: #fff;
-        }
-
-        .music-controls button:hover {
-            background-color: #5865f2;
-        }
-
-        .music-toggle {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            background-color: #111;
-            color: #fff;
-            border: none;
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 1100;
-        }
-
-        .music-toggle:hover {
-            background-color: #333;
-        }
-
         /* Discord Embed Styling */
         iframe {
-            width: 80%;
-            max-width: 300px;
-            height: 400px;
+            width: 80%; /* Smaller for better fit */
+            max-width: 300px; /* Adjusted for mobile */
+            height: 400px; /* Adjusted height */
             border: none;
-            margin: 20px auto;
+            margin: 20px auto; /* Center the iframe */
             display: block;
+        }
+
+        /* Mobile-Friendly Adjustments */
+        @media screen and (max-width: 600px) {
+            .store-items {
+                grid-template-columns: 1fr; /* One column layout */
+            }
+
+            iframe {
+                height: 300px; /* Smaller height for mobile */
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Full-Screen Overlay -->
-    <div id="enter-screen">
-        <h1>Click to Enter</h1>
-    </div>
-
-    <!-- Autoplay Background Music -->
-    <audio id="background-music" loop>
-        <source src="https://files.catbox.moe/ozp5g8.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-
-    <!-- Music Controls -->
-    <div id="music-controls" class="music-controls">
-        <p>Music Controls</p>
-        <button onclick="playMusic()">Play</button>
-        <button onclick="pauseMusic()">Pause</button>
-        <button onclick="toggleMusicControls()">Close</button>
-    </div>
-
-    <button id="music-toggle" class="music-toggle" onclick="toggleMusicControls()">♪</button>
-
     <!-- Sidebar Toggle Button -->
     <button class="sidebar-toggle" onclick="toggleSidebar()">☰ Menu</button>
 
@@ -261,6 +190,7 @@
         <h1>Store</h1>
         <p>Check out our items below:</p>
         <div class="store-items">
+            <!-- Example Store Items -->
             <div class="store-item">
                 <img src="https://files.catbox.moe/s7iw8m.jpeg" alt="Item 1">
                 <h3>Minecraft SFA</h3>
@@ -268,6 +198,7 @@
                     <button>Buy Now</button>
                 </a>
             </div>
+
             <div class="store-item">
                 <img src="https://files.catbox.moe/pqjd5n.jpeg" alt="Item 2">
                 <h3>Optifine Account</h3>
@@ -307,35 +238,6 @@
 
             // Close the sidebar after selecting a page
             toggleSidebar();
-        }
-
-        // Handle the enter screen
-        document.getElementById('enter-screen').addEventListener('click', () => {
-            // Start the music
-            const audio = document.getElementById('background-music');
-            audio.play();
-
-            // Remove the enter screen
-            document.getElementById('enter-screen').style.display = 'none';
-
-            // Enable scrolling
-            document.body.classList.add('active');
-        });
-
-        // Music control functions
-        function playMusic() {
-            const audio = document.getElementById('background-music');
-            audio.play();
-        }
-
-        function pauseMusic() {
-            const audio = document.getElementById('background-music');
-            audio.pause();
-        }
-
-        function toggleMusicControls() {
-            const controls = document.getElementById('music-controls');
-            controls.style.display = controls.style.display === 'none' || controls.style.display === '' ? 'block' : 'none';
         }
     </script>
 </body>
