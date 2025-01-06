@@ -157,9 +157,48 @@
                 height: 300px; /* Smaller height for mobile */
             }
         }
+
+        /* Snowrain Effect */
+        .snowrain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allow clicks through the animation */
+            z-index: 999;
+        }
+
+        .snowflake, .raindrop {
+            position: absolute;
+            top: -10px;
+            color: #fff;
+            opacity: 0.8;
+            font-size: 10px;
+            animation: fall 5s linear infinite;
+        }
+
+        .raindrop {
+            color: #7289da; /* Raindrops are blue */
+            font-size: 5px;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10px);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Snowrain Container -->
+    <div class="snowrain" id="snowrain"></div>
+
     <!-- Sidebar Toggle Button -->
     <button class="sidebar-toggle" onclick="toggleSidebar()">☰ Menu</button>
 
@@ -239,6 +278,24 @@
             // Close the sidebar after selecting a page
             toggleSidebar();
         }
+
+        // Snowrain Effect
+        function createSnowrain() {
+            const container = document.getElementById('snowrain');
+
+            for (let i = 0; i < 100; i++) {
+                const element = document.createElement('div');
+                element.className = Math.random() > 0.5 ? 'snowflake' : 'raindrop';
+                element.textContent = element.className === 'snowflake' ? '❄' : '|';
+                element.style.left = Math.random() * 100 + '%';
+                element.style.animationDelay = Math.random() * 5 + 's';
+                element.style.animationDuration = Math.random() * 3 + 3 + 's';
+                container.appendChild(element);
+            }
+        }
+
+        // Initialize snowrain
+        createSnowrain();
     </script>
 </body>
 </html>
