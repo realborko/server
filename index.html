@@ -158,8 +158,8 @@
             }
         }
 
-        /* Snowrain Effect */
-        .snowrain {
+        /* Ball Rain Effect */
+        .ballrain {
             position: fixed;
             top: 0;
             left: 0;
@@ -169,18 +169,14 @@
             z-index: 999;
         }
 
-        .snowflake, .raindrop {
+        .ball {
             position: absolute;
             top: -10px;
-            color: #fff;
-            opacity: 0.8;
-            font-size: 10px;
+            background-color: #fff;
+            border-radius: 50%;
+            width: 10px;
+            height: 10px;
             animation: fall 5s linear infinite;
-        }
-
-        .raindrop {
-            color: #7289da; /* Raindrops are blue */
-            font-size: 5px;
         }
 
         @keyframes fall {
@@ -196,8 +192,8 @@
     </style>
 </head>
 <body>
-    <!-- Snowrain Container -->
-    <div class="snowrain" id="snowrain"></div>
+    <!-- Ball Rain Container -->
+    <div class="ballrain" id="ballrain"></div>
 
     <!-- Sidebar Toggle Button -->
     <button class="sidebar-toggle" onclick="toggleSidebar()">☰ Menu</button>
@@ -279,23 +275,22 @@
             toggleSidebar();
         }
 
-        // Snowrain Effect
-        function createSnowrain() {
-            const container = document.getElementById('snowrain');
+        // Ball Rain Effect
+        function createBallRain() {
+            const container = document.getElementById('ballrain');
 
             for (let i = 0; i < 100; i++) {
-                const element = document.createElement('div');
-                element.className = Math.random() > 0.5 ? 'snowflake' : 'raindrop';
-                element.textContent = element.className === 'snowflake' ? '❄' : '|';
-                element.style.left = Math.random() * 100 + '%';
-                element.style.animationDelay = Math.random() * 5 + 's';
-                element.style.animationDuration = Math.random() * 3 + 3 + 's';
-                container.appendChild(element);
+                const ball = document.createElement('div');
+                ball.className = 'ball';
+                ball.style.left = Math.random() * 100 + '%';
+                ball.style.animationDelay = Math.random() * 5 + 's';
+                ball.style.animationDuration = Math.random() * 3 + 3 + 's';
+                container.appendChild(ball);
             }
         }
 
-        // Initialize snowrain
-        createSnowrain();
+        // Initialize ball rain
+        createBallRain();
     </script>
 </body>
 </html>
