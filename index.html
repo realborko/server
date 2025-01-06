@@ -12,7 +12,7 @@
             background-color: #000;
             color: #fff;
             font-family: Arial, sans-serif;
-            overflow: hidden; /* Prevent scrolling until user enters */
+            overflow: hidden;
         }
 
         /* Full-Screen Blur Overlay */
@@ -38,6 +38,17 @@
             text-align: center;
             user-select: none;
             cursor: pointer;
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            display: none; /* Hidden until the user enters */
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1, p {
+            margin: 20px 0;
         }
 
         /* Music Controls Styling */
@@ -97,6 +108,12 @@
         <h1>Click to Enter</h1>
     </div>
 
+    <!-- Main Content -->
+    <div id="main-content" class="main-content">
+        <h1>Welcome</h1>
+        <p>Accounts for cheap.</p>
+    </div>
+
     <!-- Autoplay Background Music -->
     <audio id="background-music" loop>
         <source src="https://files.catbox.moe/ozp5g8.mp3" type="audio/mpeg">
@@ -121,14 +138,19 @@
         const audio = document.getElementById('background-music');
         const musicControls = document.getElementById('music-controls');
         const volumeSlider = document.getElementById('volume-slider');
+        const mainContent = document.getElementById('main-content');
+        const enterScreen = document.getElementById('enter-screen');
 
         // Handle Enter Screen
-        document.getElementById('enter-screen').addEventListener('click', () => {
+        enterScreen.addEventListener('click', () => {
             // Start the music
             audio.play();
 
             // Remove the enter screen
-            document.getElementById('enter-screen').style.display = 'none';
+            enterScreen.style.display = 'none';
+
+            // Show the main content
+            mainContent.style.display = 'block';
         });
 
         // Music Control Functions
