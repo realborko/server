@@ -40,33 +40,68 @@
             cursor: pointer;
         }
 
-        /* Music Pulsating Circle */
-        .pulsating-circle {
+        /* Beat Effect on Screen Edges */
+        .edge-effect {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: radial-gradient(circle, #7289da 0%, #111 100%);
-            opacity: 0.8;
-            z-index: 1;
-            animation: pulse 1.5s infinite;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
         }
 
-        @keyframes pulse {
+        .edge-effect div {
+            position: absolute;
+            background: radial-gradient(circle, rgba(114, 137, 218, 0.8), transparent);
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+            animation: edgePulse 1s infinite ease-in-out;
+        }
+
+        .edge-effect .top,
+        .edge-effect .bottom {
+            height: 5%;
+            width: 100%;
+            left: 0;
+        }
+
+        .edge-effect .top {
+            top: 0;
+        }
+
+        .edge-effect .bottom {
+            bottom: 0;
+        }
+
+        .edge-effect .left,
+        .edge-effect .right {
+            width: 5%;
+            height: 100%;
+            top: 0;
+        }
+
+        .edge-effect .left {
+            left: 0;
+        }
+
+        .edge-effect .right {
+            right: 0;
+        }
+
+        @keyframes edgePulse {
             0% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0.8;
+                opacity: 0;
+                transform: scale(1);
             }
             50% {
-                transform: translate(-50%, -50%) scale(1.2);
                 opacity: 0.6;
+                transform: scale(1.2);
             }
             100% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0.8;
+                opacity: 0;
+                transform: scale(1);
             }
         }
 
@@ -127,8 +162,13 @@
         <h1>Click to Enter</h1>
     </div>
 
-    <!-- Pulsating Circle -->
-    <div id="pulsating-circle" class="pulsating-circle"></div>
+    <!-- Beat Effect -->
+    <div class="edge-effect">
+        <div class="top"></div>
+        <div class="bottom"></div>
+        <div class="left"></div>
+        <div class="right"></div>
+    </div>
 
     <!-- Autoplay Background Music -->
     <audio id="background-music" loop>
@@ -154,33 +194,37 @@
         const audio = document.getElementById('background-music');
         const musicControls = document.getElementById('music-controls');
         const volumeSlider = document.getElementById('volume-slider');
-        const pulsatingCircle = document.getElementById('pulsating-circle');
+        const edgeEffectDivs = document.querySelectorAll('.edge-effect div');
         let audioContext, analyser, dataArray;
 
-        // Initialize audio context and analyser for the pulsating effect
+        // Initialize audio context and analyser for the edge beat effect
         function setupAudioVisualizer() {
             audioContext = new (window.AudioContext || window.webkitAudioContext)();
             const source = audioContext.createMediaElementSource(audio);
             analyser = audioContext.createAnalyser();
             source.connect(analyser);
             analyser.connect(audioContext.destination);
-            analyser.fftSize = 256;
+            analyser.fftSize = 128;
 
             const bufferLength = analyser.frequencyBinCount;
             dataArray = new Uint8Array(bufferLength);
 
-            // Animate the pulsating effect
-            function animatePulse() {
+            // Animate the edge effect
+            function animateEdges() {
                 if (!analyser) return;
 
                 analyser.getByteFrequencyData(dataArray);
                 const averageFrequency = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
 
-                const scale = Math.max(1, averageFrequency / 50);
-                pulsatingCircle.style.transform = `translate(-50%, -50%) scale(${scale})`;
-                requestAnimationFrame(animatePulse);
+                const intensity = Math.min(1, averageFrequency / 100); // Scale intensity
+                edgeEffectDivs.forEach(div => {
+                    div.style.opacity = intensity;
+                    div.style.transform = `scale(${1 + intensity})`;
+                });
+
+                requestAnimationFrame(animateEdges);
             }
-            animatePulse();
+            animateEdges();
         }
 
         // Handle Enter Screen
