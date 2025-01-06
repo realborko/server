@@ -130,31 +130,32 @@
             border-radius: 5px;
             color: #fff;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.1s;
         }
 
         .store-item button:hover {
             background-color: #5865f2;
         }
 
-        /* Discord Embed Styling */
-        iframe {
-            width: 80%; /* Smaller for better fit */
-            max-width: 300px; /* Adjusted for mobile */
-            height: 400px; /* Adjusted height */
-            border: none;
-            margin: 20px auto; /* Center the iframe */
-            display: block;
+        /* Click effect */
+        .click-effect {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: clickEffect 0.5s ease-out;
         }
 
-        /* Mobile-Friendly Adjustments */
-        @media screen and (max-width: 600px) {
-            .store-items {
-                grid-template-columns: 1fr; /* One column layout */
+        @keyframes clickEffect {
+            from {
+                transform: scale(1);
+                opacity: 1;
             }
-
-            iframe {
-                height: 300px; /* Smaller height for mobile */
+            to {
+                transform: scale(2);
+                opacity: 0;
             }
         }
 
@@ -176,7 +177,7 @@
             border-radius: 50%;
             width: 10px;
             height: 10px;
-            animation: fall 5s linear infinite;
+            animation: fall 6s linear infinite;
         }
 
         @keyframes fall {
@@ -230,7 +231,7 @@
                 <img src="https://files.catbox.moe/s7iw8m.jpeg" alt="Item 1">
                 <h3>Minecraft SFA</h3>
                 <a href="https://ziehung.mysellix.io/product/minecraft-sfa-account-677b1aa56cf7e" target="_blank">
-                    <button>Buy Now</button>
+                    <button onclick="playClickEffect(event)">Buy Now</button>
                 </a>
             </div>
 
@@ -238,14 +239,7 @@
                 <img src="https://files.catbox.moe/pqjd5n.jpeg" alt="Item 2">
                 <h3>Optifine Account</h3>
                 <a href="https://example.com/item2" target="_blank">
-                    <button>Buy Now</button>
-                </a>
-            </div>
-            <div class="store-item">
-                <img src="https://files.catbox.moe/6qsb24.jpeg" alt="Item 3">
-                <h3>Valorant Account</h3>
-                <a href="https://example.com/item3" target="_blank">
-                    <button>Buy Now</button>
+                    <button onclick="playClickEffect(event)">Buy Now</button>
                 </a>
             </div>
         </div>
@@ -279,14 +273,33 @@
         function createBallRain() {
             const container = document.getElementById('ballrain');
 
-            for (let i = 0; i < 100; i++) {
+            for (let i = 0; i < 50; i++) { // Reduced number of balls
                 const ball = document.createElement('div');
                 ball.className = 'ball';
                 ball.style.left = Math.random() * 100 + '%';
-                ball.style.animationDelay = Math.random() * 5 + 's';
+                ball.style.animationDelay = Math.random() * 6 + 's';
                 ball.style.animationDuration = Math.random() * 3 + 3 + 's';
                 container.appendChild(ball);
             }
+        }
+
+        // Click effect with sound
+        function playClickEffect(event) {
+            // Create the visual click effect
+            const clickEffect = document.createElement('div');
+            clickEffect.className = 'click-effect';
+            clickEffect.style.left = event.clientX + 'px';
+            clickEffect.style.top = event.clientY + 'px';
+            document.body.appendChild(clickEffect);
+
+            // Remove the click effect after animation ends
+            setTimeout(() => {
+                clickEffect.remove();
+            }, 500);
+
+            // Play the click sound
+            const clickSound = new Audio('https://www.soundjay.com/button/sounds/button-16.mp3');
+            clickSound.play();
         }
 
         // Initialize ball rain
