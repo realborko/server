@@ -13,6 +13,11 @@
             color: #fff;
             font-family: Arial, sans-serif;
             overflow-x: hidden; /* Prevent horizontal scrolling */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh; /* Make sure the content is vertically centered */
             text-align: center; /* Center align all content */
         }
 
@@ -83,12 +88,9 @@
 
         /* Main Content */
         .main-content {
-            margin: 20px;
+            max-width: 90%; /* Ensures content fits well on smaller screens */
+            margin: 20px auto;
             transition: margin-left 0.3s ease;
-        }
-
-        .main-content.shifted {
-            margin-left: 200px;
         }
 
         /* Store Page Styling */
@@ -130,33 +132,11 @@
             border-radius: 5px;
             color: #fff;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.1s;
+            transition: background-color 0.3s ease;
         }
 
         .store-item button:hover {
             background-color: #5865f2;
-        }
-
-        /* Click effect */
-        .click-effect {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: clickEffect 0.5s ease-out;
-        }
-
-        @keyframes clickEffect {
-            from {
-                transform: scale(1);
-                opacity: 1;
-            }
-            to {
-                transform: scale(2);
-                opacity: 0;
-            }
         }
 
         /* Ball Rain Effect */
@@ -214,7 +194,8 @@
         <iframe 
             src="https://discord.com/widget?id=1325533924134228018&theme=dark" 
             allowtransparency="true" 
-            sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
+            sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
+            style="max-width: 90%; margin: 0 auto; display: block;">
         </iframe>
 
         <p>
@@ -231,7 +212,7 @@
                 <img src="https://files.catbox.moe/s7iw8m.jpeg" alt="Item 1">
                 <h3>Minecraft SFA</h3>
                 <a href="https://ziehung.mysellix.io/product/minecraft-sfa-account-677b1aa56cf7e" target="_blank">
-                    <button onclick="playClickEffect(event)">Buy Now</button>
+                    <button>Buy Now</button>
                 </a>
             </div>
 
@@ -239,7 +220,7 @@
                 <img src="https://files.catbox.moe/pqjd5n.jpeg" alt="Item 2">
                 <h3>Optifine Account</h3>
                 <a href="https://example.com/item2" target="_blank">
-                    <button onclick="playClickEffect(event)">Buy Now</button>
+                    <button>Buy Now</button>
                 </a>
             </div>
         </div>
@@ -273,7 +254,7 @@
         function createBallRain() {
             const container = document.getElementById('ballrain');
 
-            for (let i = 0; i < 50; i++) { // Reduced number of balls
+            for (let i = 0; i < 30; i++) { // Reduced number of balls
                 const ball = document.createElement('div');
                 ball.className = 'ball';
                 ball.style.left = Math.random() * 100 + '%';
@@ -281,25 +262,6 @@
                 ball.style.animationDuration = Math.random() * 3 + 3 + 's';
                 container.appendChild(ball);
             }
-        }
-
-        // Click effect with sound
-        function playClickEffect(event) {
-            // Create the visual click effect
-            const clickEffect = document.createElement('div');
-            clickEffect.className = 'click-effect';
-            clickEffect.style.left = event.clientX + 'px';
-            clickEffect.style.top = event.clientY + 'px';
-            document.body.appendChild(clickEffect);
-
-            // Remove the click effect after animation ends
-            setTimeout(() => {
-                clickEffect.remove();
-            }, 500);
-
-            // Play the click sound
-            const clickSound = new Audio('https://www.soundjay.com/button/sounds/button-16.mp3');
-            clickSound.play();
         }
 
         // Initialize ball rain
