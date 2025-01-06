@@ -45,20 +45,6 @@
             overflow: auto; /* Enable scrolling when active */
         }
 
-        /* Smooth Entering Animation */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeIn 1s ease-in-out forwards;
-        }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         /* Sidebar Styling */
         .sidebar {
             position: fixed;
@@ -126,16 +112,17 @@
         /* Store Page Styling */
         .store-items {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Smaller grid items */
+            gap: 10px; /* Reduced gap */
+            margin-top: 10px; /* Less spacing */
+            max-width: 90%; /* Smaller page */
         }
 
         .store-item {
             background-color: #222;
             border: 1px solid #333;
             border-radius: 10px;
-            padding: 15px;
+            padding: 10px; /* Reduced padding */
             text-align: center;
             color: #fff;
         }
@@ -143,20 +130,16 @@
         .store-item img {
             max-width: 100%;
             border-radius: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 5px; /* Reduced margin */
         }
 
         .store-item h3 {
-            margin: 10px 0;
-        }
-
-        .store-item p {
             margin: 5px 0;
         }
 
         .store-item button {
-            margin-top: 10px;
-            padding: 10px;
+            margin-top: 5px; /* Reduced margin */
+            padding: 8px; /* Smaller button */
             background-color: #7289da;
             border: none;
             border-radius: 5px;
@@ -169,6 +152,51 @@
             background-color: #5865f2;
         }
 
+        /* Music Controls Styling */
+        .music-controls {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background-color: #111;
+            border-radius: 10px;
+            padding: 10px;
+            color: #fff;
+            display: none; /* Hidden by default */
+            z-index: 1200;
+        }
+
+        .music-controls button {
+            background-color: #7289da;
+            border: none;
+            padding: 5px 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .music-controls button:hover {
+            background-color: #5865f2;
+        }
+
+        .music-toggle {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background-color: #111;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1100;
+        }
+
+        .music-toggle:hover {
+            background-color: #333;
+        }
+
         /* Discord Embed Styling */
         iframe {
             width: 80%;
@@ -177,17 +205,6 @@
             border: none;
             margin: 20px auto;
             display: block;
-        }
-
-        /* Mobile-Friendly Adjustments */
-        @media screen and (max-width: 600px) {
-            .store-items {
-                grid-template-columns: 1fr;
-            }
-
-            iframe {
-                height: 300px;
-            }
         }
     </style>
 </head>
@@ -202,6 +219,16 @@
         <source src="https://files.catbox.moe/ozp5g8.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
+
+    <!-- Music Controls -->
+    <div id="music-controls" class="music-controls">
+        <p>Music Controls</p>
+        <button onclick="playMusic()">Play</button>
+        <button onclick="pauseMusic()">Pause</button>
+        <button onclick="toggleMusicControls()">Close</button>
+    </div>
+
+    <button id="music-toggle" class="music-toggle" onclick="toggleMusicControls()">♪</button>
 
     <!-- Sidebar Toggle Button -->
     <button class="sidebar-toggle" onclick="toggleSidebar()">☰ Menu</button>
@@ -293,6 +320,22 @@
             // Enable scrolling
             document.body.classList.add('active');
         });
+
+        // Music control functions
+        function playMusic() {
+            const audio = document.getElementById('background-music');
+            audio.play();
+        }
+
+        function pauseMusic() {
+            const audio = document.getElementById('background-music');
+            audio.pause();
+        }
+
+        function toggleMusicControls() {
+            const controls = document.getElementById('music-controls');
+            controls.style.display = controls.style.display === 'none' || controls.style.display === '' ? 'block' : 'none';
+        }
     </script>
 </body>
 </html>
