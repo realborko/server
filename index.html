@@ -12,11 +12,35 @@
             background-color: #000;
             color: #fff;
             font-family: Arial, sans-serif;
-            overflow-x: hidden; /* Prevent horizontal scrolling */
-            text-align: center; /* Center align all content */
+            overflow: hidden; /* Prevent scrolling */
         }
 
-        /* Smooth Entering Animation */
+        /* Full-Screen Blur Overlay */
+        #enter-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        #enter-screen h1 {
+            color: white;
+            font-size: 3rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-align: center;
+            user-select: none;
+            cursor: pointer;
+        }
+
+        /* General Styling */
         .fade-in {
             opacity: 0;
             transform: translateY(20px);
@@ -30,22 +54,21 @@
             }
         }
 
-        /* Sidebar Styling */
         .sidebar {
             position: fixed;
             top: 0;
-            left: -200px; /* Initially hidden */
+            left: -200px;
             width: 200px;
             height: 100%;
             background-color: #111;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
-            padding-top: 80px; /* Moves buttons lower */
+            padding-top: 80px;
             z-index: 1000;
-            transition: left 0.3s ease; /* Smooth slide-in */
+            transition: left 0.3s ease;
         }
 
         .sidebar.open {
-            left: 0; /* Slide into view */
+            left: 0;
         }
 
         .sidebar a {
@@ -61,7 +84,6 @@
             color: #7289da;
         }
 
-        /* Sidebar Toggle Button */
         .sidebar-toggle {
             position: fixed;
             top: 15px;
@@ -81,7 +103,6 @@
             background-color: #333;
         }
 
-        /* Main Content */
         .main-content {
             margin: 20px;
             transition: margin-left 0.3s ease;
@@ -90,78 +111,16 @@
         .main-content.shifted {
             margin-left: 200px;
         }
-
-        /* Store Page Styling */
-        .store-items {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .store-item {
-            background-color: #222;
-            border: 1px solid #333;
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-            color: #fff;
-        }
-
-        .store-item img {
-            max-width: 100%;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-
-        .store-item h3 {
-            margin: 10px 0;
-        }
-
-        .store-item p {
-            margin: 5px 0;
-        }
-
-        .store-item button {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #7289da;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .store-item button:hover {
-            background-color: #5865f2;
-        }
-
-        /* Discord Embed Styling */
-        iframe {
-            width: 80%; /* Smaller for better fit */
-            max-width: 300px; /* Adjusted for mobile */
-            height: 400px; /* Adjusted height */
-            border: none;
-            margin: 20px auto; /* Center the iframe */
-            display: block;
-        }
-
-        /* Mobile-Friendly Adjustments */
-        @media screen and (max-width: 600px) {
-            .store-items {
-                grid-template-columns: 1fr; /* One column layout */
-            }
-
-            iframe {
-                height: 300px; /* Smaller height for mobile */
-            }
-        }
     </style>
 </head>
 <body>
+    <!-- Full-Screen Overlay -->
+    <div id="enter-screen">
+        <h1>Click to Enter</h1>
+    </div>
+
     <!-- Autoplay Background Music -->
-    <audio autoplay loop>
+    <audio id="background-music" loop>
         <source src="https://files.catbox.moe/ozp5g8.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
@@ -245,6 +204,19 @@
             // Close the sidebar after selecting a page
             toggleSidebar();
         }
+
+        // Handle the enter screen
+        document.getElementById('enter-screen').addEventListener('click', () => {
+            // Start the music
+            const audio = document.getElementById('background-music');
+            audio.play();
+
+            // Remove the enter screen
+            document.getElementById('enter-screen').style.display = 'none';
+
+            // Enable scrolling
+            document.body.style.overflow = 'auto';
+        });
     </script>
 </body>
 </html>
