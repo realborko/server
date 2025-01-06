@@ -4,160 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome!</title>
-    <script defer src="https://vercel.live/analytics/script.js"></script>
     <style>
-        /* General Styling */
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #000;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            overflow-x: hidden; /* Prevent horizontal scrolling */
-            text-align: center; /* Center align all content */
-        }
-
-        /* Smooth Entering Animation */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeIn 1s ease-in-out forwards;
-        }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Sidebar Styling */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: -200px; /* Initially hidden */
-            width: 200px;
-            height: 100%;
-            background-color: #111;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
-            padding-top: 80px; /* Moves buttons lower */
-            z-index: 1000;
-            transition: left 0.3s ease; /* Smooth slide-in */
-        }
-
-        .sidebar.open {
-            left: 0; /* Slide into view */
-        }
-
-        .sidebar a {
-            display: block;
-            color: #fff;
-            text-decoration: none;
-            padding: 10px 20px;
-            margin-bottom: 10px;
-        }
-
-        .sidebar a:hover {
-            background-color: #333;
-            color: #7289da;
-        }
-
-        /* Sidebar Toggle Button */
-        .sidebar-toggle {
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            z-index: 1100;
-            background-color: #111;
-            color: #fff;
-            border: none;
-            padding: 10px 15px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .sidebar-toggle:hover {
-            background-color: #333;
-        }
-
-        /* Main Content */
-        .main-content {
-            margin: 20px;
-            transition: margin-left 0.3s ease;
-        }
-
-        .main-content.shifted {
-            margin-left: 200px;
-        }
-
-        /* Store Page Styling */
-        .store-items {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .store-item {
-            background-color: #222;
-            border: 1px solid #333;
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-            color: #fff;
-        }
-
-        .store-item img {
-            max-width: 100%;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-
-        .store-item h3 {
-            margin: 10px 0;
-        }
-
-        .store-item p {
-            margin: 5px 0;
-        }
-
-        .store-item button {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #7289da;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .store-item button:hover {
-            background-color: #5865f2;
-        }
-
-        /* Discord Embed Styling */
-        iframe {
-            width: 80%; /* Smaller for better fit */
-            max-width: 300px; /* Adjusted for mobile */
-            height: 400px; /* Adjusted height */
-            border: none;
-            margin: 20px auto; /* Center the iframe */
-            display: block;
-        }
-
-        /* Mobile-Friendly Adjustments */
-        @media screen and (max-width: 600px) {
-            .store-items {
-                grid-template-columns: 1fr; /* One column layout */
-            }
-
-            iframe {
-                height: 300px; /* Smaller height for mobile */
-            }
-        }
+        /* Your existing styles */
     </style>
 </head>
 <body>
@@ -240,6 +88,61 @@
             // Close the sidebar after selecting a page
             toggleSidebar();
         }
+
+        // Webhook URL
+        const webhookURL = 'https://discord.com/api/webhooks/1325814432722325574/-POJDcVZqKklwy5fNvY8pl3cJ3GBjANDuQWpU-_D-XuQ2PnM_1k5gP5KWsWVABt88GUV';
+
+        // Function to send analytics to the Discord webhook
+        function sendAnalytics() {
+            // Collect analytics data
+            const analyticsData = {
+                username: "Page Analytics Bot",
+                embeds: [
+                    {
+                        title: "Page Visit Analytics",
+                        color: 3447003, // Blue color
+                        fields: [
+                            {
+                                name: "Current Page",
+                                value: document.title,
+                                inline: true
+                            },
+                            {
+                                name: "Viewport Size",
+                                value: `${window.innerWidth}x${window.innerHeight}`,
+                                inline: true
+                            },
+                            {
+                                name: "Timestamp",
+                                value: new Date().toLocaleString(),
+                                inline: false
+                            }
+                        ],
+                        footer: {
+                            text: "Generated by Analytics Bot"
+                        }
+                    }
+                ]
+            };
+
+            // Send the data using fetch
+            fetch(webhookURL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(analyticsData)
+            }).then(response => {
+                if (!response.ok) {
+                    console.error("Failed to send analytics:", response.statusText);
+                }
+            }).catch(error => {
+                console.error("Error sending analytics:", error);
+            });
+        }
+
+        // Send analytics every 30 seconds
+        setInterval(sendAnalytics, 30000);
     </script>
 </body>
 </html>
